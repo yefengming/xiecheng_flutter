@@ -14,6 +14,8 @@ class _HomePageState extends State<HomePage> {
     'http://pic29.nipic.com/20130516/3895313_131038325107_2.jpg'
   ];
 
+  double appBarAlpha = 0;
+
   _onScroll(offset) {
     double alpha = offset/APPBAR_SEROLL_OFFSET;
     if (alpha < 0) {
@@ -26,12 +28,10 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  double appBarAlpha = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      body: Stack( //自定义appbar堆在ListView上边
         children: <Widget>[
           MediaQuery.removePadding( //移除状态栏间距
             removeTop: true,
