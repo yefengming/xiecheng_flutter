@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:xiecheng_flutter/dao/home_dao.dart';
+import 'package:xiecheng_flutter/model/common_model.dart';
+import 'package:xiecheng_flutter/model/home_model.dart';
+import 'package:xiecheng_flutter/widget/local_nav.dart';
+import 'dart:convert';
+import '../widget/grid_nav.dart';
+
 const APPBAR_SEROLL_OFFSET = 100;
 
 class HomePage extends StatefulWidget {
@@ -15,6 +22,13 @@ class _HomePageState extends State<HomePage> {
   ];
 
   double appBarAlpha = 0;
+  List<CommonModel> localNavList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
 
   _onScroll(offset) {
     double alpha = offset/APPBAR_SEROLL_OFFSET;
@@ -27,6 +41,31 @@ class _HomePageState extends State<HomePage> {
       appBarAlpha = alpha;
     });
   }
+
+  loadData() async {
+    try {
+      HomeModel model = await HomeDao.fetch();
+      setState(() {
+        localNavList = model.localNavList;
+      });
+    } catch (e) {
+      setState(() {
+        print(e);
+      });
+    }
+  }
+
+//  loadData() {
+//    HomeDao.fetch().then((result) {
+//      setState(() {
+//        resultString = json.encode(result);
+//      })
+//    }).catchError((e) {
+//      setState(() {
+//        resultString = e.toString();
+//      });
+//    });
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +96,16 @@ class _HomePageState extends State<HomePage> {
                         );
                       },
                       pagination: SwiperPagination(), //指示器
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                    child: LocalNav(localNavList: localNavList,),
+                  ),
+                  Container(
+                    height: 800,
+                    child: ListTile(
+                      title: Text('aaa'),
                     ),
                   ),
                 ],
