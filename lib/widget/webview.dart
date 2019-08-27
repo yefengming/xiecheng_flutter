@@ -2,15 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+const CATCH_URLS = ['m.ctrip.com/', 'm.ctrip.com/html5/', 'm.ctrip.com/html5']; //白名单
 
 class WebView extends StatefulWidget {
   final String url;
   final String statusBarColor;
   final String title;
   final bool hideAppBar;
-  final String backForbid;
+  final bool backForbid;
 
-  const WebView({Key key, this.url, this.statusBarColor, this.title, this.hideAppBar, this.backForbid}) : super(key: key);
+  const WebView({Key key, this.url, this.statusBarColor, this.title, this.hideAppBar, this.backForbid = false}) : super(key: key);
 
   @override
   _WebViewState createState() => _WebViewState();
@@ -21,6 +22,7 @@ class _WebViewState extends State<WebView> {
   StreamSubscription<String> _onUrlChanged;
   StreamSubscription<WebViewStateChanged> _onStateChanged;
   StreamSubscription<WebViewHttpError> _onHttpError;
+  bool exiting = false;
 
   @override
   void initState() {
@@ -32,6 +34,14 @@ class _WebViewState extends State<WebView> {
     _onStateChanged = webviewReference.onStateChanged.listen((WebViewStateChanged state) {
       switch(state.type) {
         case WebViewState.startLoad:
+          if (_isToMian(state.url) && !exiting) {
+            if (widget.backForbid) {
+              webviewReference.launch(widget.url);
+            } else {
+              Navigator.pop(context);
+              exiting = true;
+            }
+          }
           break;
         default:
           break;
@@ -40,6 +50,17 @@ class _WebViewState extends State<WebView> {
     _onHttpError = webviewReference.onHttpError.listen((WebViewHttpError error) {
       print(error);
     });
+  }
+
+  _isToMian(String url) {
+    bool contain = false;
+    for(final value in CATCH_URLS) {
+      if (url?.endsWith(value) ?? false) {
+        contain = true;
+        break;
+      }
+    }
+    return contain;
   }
 
   @override
