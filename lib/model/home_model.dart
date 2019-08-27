@@ -8,7 +8,7 @@ class HomeModel {
   final List <CommonModel> bannerList;
   final List <CommonModel> localNavList;
   final List <CommonModel> subNavList;
-  final GridNavModel girdNav;
+  final GridNavModel gridNav;
   final SalesBoxModel salesBox;
 
   HomeModel({
@@ -16,7 +16,7 @@ class HomeModel {
     this.bannerList,
     this.localNavList,
     this.subNavList,
-    this.girdNav,
+    this.gridNav,
     this.salesBox,
   });
 
@@ -36,7 +36,7 @@ class HomeModel {
       localNavList: localNavList,
       subNavList: subNavList,
       config: ConfigModel.fromJson(json['config']),
-      girdNav: GridNavModel.fromJson(json['GridNav']),
+      gridNav: GridNavModel.fromJson(json['gridNav']),
       salesBox: SalesBoxModel.fromJson(json['salesBox']),
     );
   }

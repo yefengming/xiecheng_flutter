@@ -65,11 +65,11 @@ class _WebViewState extends State<WebView> {
 
   @override
   void dispose() {
-    super.dispose();
     _onUrlChanged.cancel();
     _onStateChanged.cancel();
     _onHttpError.cancel();
     webviewReference.dispose(); //关闭webview
+    super.dispose();
   }
 
   @override
@@ -108,16 +108,21 @@ class _WebViewState extends State<WebView> {
   _appBar(Color backgroundColor, Color backButtonColor) {
     if (widget.hideAppBar ?? false) {
       return Container(
-        color: backButtonColor,
+        color: backgroundColor,
         height: 30,
       );
     }
     return Container(
+      color: backgroundColor,
+      padding: EdgeInsets.fromLTRB(0, 40, 0, 10),
       child: FractionallySizedBox( //元素充满
         widthFactor: 1, //宽度充满
         child: Stack(
           children: <Widget>[
             GestureDetector(
+              onTap: (){
+                Navigator.pop(context);
+              },
               child: Container(
                 margin: EdgeInsets.only(left: 10),
                 child: Icon(
