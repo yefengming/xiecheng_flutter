@@ -4,7 +4,10 @@ import 'package:xiecheng_flutter/dao/home_dao.dart';
 import 'package:xiecheng_flutter/model/common_model.dart';
 import 'package:xiecheng_flutter/model/grid_nav_model.dart';
 import 'package:xiecheng_flutter/model/home_model.dart';
+import 'package:xiecheng_flutter/model/sales_box_model.dart';
 import 'package:xiecheng_flutter/widget/local_nav.dart';
+import 'package:xiecheng_flutter/widget/sales_box.dart';
+import 'package:xiecheng_flutter/widget/sub_nav.dart';
 import 'dart:convert';
 import '../widget/grid_nav.dart';
 
@@ -25,6 +28,8 @@ class _HomePageState extends State<HomePage> {
   double appBarAlpha = 0;
   List<CommonModel> localNavList = [];
   GridNavModel gridNavModel;
+  List<CommonModel> subNavList = [];
+  SalesBoxModel salesBox;
 
   @override
   void initState() {
@@ -50,6 +55,8 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         localNavList = model.localNavList;
         gridNavModel = model.gridNav;
+        subNavList = model.subNavList;
+        salesBox = model.salesBox;
       });
     } catch (e) {
       setState(() {
@@ -108,6 +115,14 @@ class _HomePageState extends State<HomePage> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(7, 0, 7, 4),
                     child: GridNav(gridNavModel: gridNavModel),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(7, 0, 7, 4),
+                    child: SubNav(subNavList: subNavList,),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(7, 0, 7, 4),
+                    child: SalesBox(salesBox: salesBox,),
                   ),
                   Container(
                     height: 800,
